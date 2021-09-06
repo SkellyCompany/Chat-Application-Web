@@ -1,1 +1,15 @@
-<div class="main-container"></div>
+<div class="main-container">
+  <div class="messages-container"></div>
+  <div class="input-container">
+    <input
+      class="message-textfield"
+      (input)="didUpdateMessageTextField($event)"
+    />
+    <div
+      class="send-message-button-container"
+      (click)="didClickSendMessageButton()"
+    >
+      <i id="send-message-button-icon" class="las la-paper-plane"></i>
+    </div>
+  </div>
+</div>

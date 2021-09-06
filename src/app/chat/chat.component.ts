@@ -13,6 +13,7 @@ export class ChatComponent implements OnInit {
   loggedInUser?: User = LocalStorage.getUser()
   messages?: [Message]
 
+  message?: string
 
   constructor() { }
 
@@ -20,4 +21,11 @@ export class ChatComponent implements OnInit {
     console.log(this.loggedInUser)
   }
 
+  didUpdateMessageTextField(event: any) {
+    this.message = event.target.value
+  }
+
+  didClickSendMessageButton() {
+    //TODO: Implement
+  }
 }

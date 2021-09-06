@@ -49,13 +49,13 @@
 }
 
 .username-textfield {
-  font-size: 12px;
-  width: calc(100% - 2em);
+  font-size: 1.25em;
+  width: calc(100% - 6em);
   border-radius: 0.8em;
   background-color: #48484a;
   border: 0.15em solid #636366;
   max-width: 23em;
-  height: 3.3em;
+  height: 3em;
   margin-bottom: 1.5em;
   transition: all 0.2s ease-in-out;
   cursor: text;
@@ -66,11 +66,11 @@
 }
 
 .username-textfield:hover {
-  border: 0.15em solid #87a8a4;
+  border-color: #87a8a4;
 }
 
 .username-textfield:focus {
-  border: 0.15em solid #87a8a4;
+  border-color: #87a8a4;
 }
 
 .join-button {
