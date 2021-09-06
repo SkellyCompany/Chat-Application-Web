@@ -1,4 +1,6 @@
+import { LocalStorage } from './../../global/LocalStorage';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-join',
@@ -9,7 +11,7 @@ export class JoinComponent implements OnInit {
 
   username?: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +21,10 @@ export class JoinComponent implements OnInit {
   }
 
   didClickJoinButton() {
-    //TODO: Implement
+    if (this.username != undefined && this.username.length > 0) {
+      //TODO: Implement
+      LocalStorage.saveUser({ username: this.username })
+      this.router.navigate(["/chat"]);
+    }
   }
 }
