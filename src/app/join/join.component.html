@@ -1,0 +1,17 @@
+<div class="main-container">
+  <div class="join-container">
+    <div class="header-container">
+      <div class="header-title">Skelly Chat</div>
+      <div class="header-description">
+        Type in your username and join the Skelly Chat!
+      </div>
+    </div>
+    <input
+      class="username-textfield"
+      (input)="didUpdateUsernameTextField($event)"
+    />
+    <div class="join-button" (click)="didClickJoinButton()">
+      <div class="join-button-label">JOIN</div>
+    </div>
+  </div>
+</div>
