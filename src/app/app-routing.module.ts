@@ -1,4 +1,4 @@
-import { ChatGuard } from './chat/chat.guard';
+import { ChatGuard } from './shared/chat/_guard/chat.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 

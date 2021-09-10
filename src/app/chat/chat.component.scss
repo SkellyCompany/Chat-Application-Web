@@ -79,3 +79,42 @@
 .send-message-button-container:hover {
   cursor: pointer;
 }
+
+.message{
+  display: flex;
+  color: white;
+  font-size: large;
+  margin: 25px;
+}
+
+.right{
+  margin-left: auto;
+}
+
+.chat-main{
+  display: flex;
+  background-color: #1c1c1e;
+}
+
+.user-container{
+  border-style: solid;
+  border-width: 2px;
+  border-color: #2c2c2e;
+  padding: 25px;
+  color: white;
+}
+
+.user-small-container{
+  margin-bottom: 25px;
+}
+
+.typing-container{
+  display: flex;
+  color: white;
+  font-size: large;
+  margin: 25px;
+}
+
+.currentlyTyping{
+  margin-left: 25px;
+}
