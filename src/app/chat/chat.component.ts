@@ -5,7 +5,7 @@ import {Select, Store} from "@ngxs/store";
 import {ChatState} from "../shared/chat/chat.state";
 import {Observable} from "rxjs";
 import {NewMessage, StartTyping} from "../shared/chat/chat.action";
-import {filter, first, map, tap} from "rxjs/operators";
+import {filter, first} from "rxjs/operators";
 import { ChatService } from "../shared/chat/chat.service";
 
 @Component({
@@ -23,10 +23,8 @@ export class ChatComponent implements OnInit {
   @Select(ChatState.getMessages) messages$: Observable<Message[]>;
   // @ts-ignore
   @Select(ChatState.getAllUsers) allUsers$: Observable<User[]>;
-
-  public get typingUsers$(): Observable<string[]> {
-    return this.chatService.typingChanged$.pipe(map(users => users.filter(username => username !== this.currentU.username)));
-  }
+  // @ts-ignore
+  @Select(ChatState.getTyping) allTyping: Observable<User[]>;
 
   constructor(private store: Store, private chatService: ChatService) {}
 

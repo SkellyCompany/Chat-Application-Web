@@ -6,15 +6,8 @@ import { BehaviorSubject, Observable } from "rxjs";
   providedIn: 'root',
 })
 export class ChatService {
-  private typingUsers: BehaviorSubject<string[]> = new BehaviorSubject([] as string[]);
 
-  public get typingChanged$(): Observable<string[]> {
-    return this.typingUsers.pipe();
-  }
-
-  constructor(private socket: Socket) {
-    this.socket.on("typing_changed", (data: string[]) => this.typingUsers.next(data));
-  }
+  constructor(private socket: Socket) {}
 
   async joinRoom(username: string): Promise<any> {
     this.socket.emit('join', username);

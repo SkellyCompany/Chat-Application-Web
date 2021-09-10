@@ -12,7 +12,6 @@ import {
   StartTyping,
   UpdateTyping
 } from "./chat.action";
-import {first} from "rxjs/operators";
 
 export class ChatStateModel {
   messageList: Message[] | undefined ;
@@ -57,7 +56,7 @@ export class ChatState {
 
     chatService.getTyping().subscribe(
       (data) => {
-        console.log(data);
+        this.store.dispatch(new UpdateTyping(data as User[]));
       });
   }
 

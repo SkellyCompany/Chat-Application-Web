@@ -16,7 +16,7 @@
 
 
     <div class="typing-container">
-      <div class="currentlyTyping" *ngFor="let user of typingUsers$ | async">
+      <div class="currentlyTyping" *ngFor="let user of allTyping | async">
         {{user}} is Typing
       </div>
     </div>
