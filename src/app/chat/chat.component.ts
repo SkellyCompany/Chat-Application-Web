@@ -5,7 +5,8 @@ import {Select, Store} from "@ngxs/store";
 import {ChatState} from "../shared/chat/chat.state";
 import {Observable} from "rxjs";
 import {NewMessage, StartTyping} from "../shared/chat/chat.action";
-import {first} from "rxjs/operators";
+import {first, map} from "rxjs/operators";
+import { ChatService } from "../shared/chat/chat.service";
 
 @Component({
   selector: 'app-chat',
@@ -17,9 +18,7 @@ export class ChatComponent implements OnInit {
   message?: string
 
   // @ts-ignore
-  @Select(ChatState.getMessages) listOfMessages: Observable<Message[]>;
-  // @ts-ignore
-  messages: Message[];
+  @Select(ChatState.getMessages) messages$: Observable<Message[]>;
 
   // @ts-ignore
   @Select(ChatState.getUser) currentUser: Observable<User>;
@@ -31,20 +30,13 @@ export class ChatComponent implements OnInit {
   // @ts-ignore
   allUsers: User[];
 
-  // @ts-ignore
-  @Select(ChatState.getTyping) currentUsersTyping: Observable<User[]>;
-  // @ts-ignore
-  typingUsers: User[];
+  public get typingUsers$(): Observable<string[]> {
+    return this.chatService.typingChanged$.pipe(map(users => users.filter(username => username !== this.currentU.username)));
+  }
 
-  constructor(private store: Store) {
-    // @ts-ignore
-    this.listOfMessages.subscribe((data) => {
-      if(data) {
-        console.log(data);
-        this.messages = data;
-      }
-    });
+  constructor(private store: Store, private chatService: ChatService) {}
 
+  ngOnInit(): void {
     // @ts-ignore
     this.currentUser.subscribe((data) => {
       if(data) {
@@ -59,19 +51,6 @@ export class ChatComponent implements OnInit {
         this.allUsers = data;
       }
     });
-
-    // @ts-ignore
-    this.currentUsersTyping.subscribe((data) => {
-      if(data) {
-        console.log(data);
-        this.typingUsers = data;
-      }
-    });
-
-
-  }
-
-  ngOnInit(): void {
   }
 
   didUpdateMessageTextField(event: any) {

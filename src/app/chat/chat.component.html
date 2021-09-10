@@ -9,15 +9,15 @@
   </div>
   <div class="main-container">
     <div class="messages-container">
-      <div class="message" *ngFor="let message of messages">
+      <div class="message" *ngFor="let message of messages$ | async">
         {{message.author}}: {{message.content}} <div class="right">{{message.time}}</div>
       </div>
     </div>
 
 
     <div class="typing-container">
-      <div class="currentlyTyping" *ngFor="let user of typingUsers">
-        {{user.username}} is Typing
+      <div class="currentlyTyping" *ngFor="let user of typingUsers$ | async">
+        {{user}} is Typing
       </div>
     </div>
     <div class="input-container">

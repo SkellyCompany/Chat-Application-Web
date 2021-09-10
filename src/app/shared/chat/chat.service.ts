@@ -1,12 +1,20 @@
 import {Injectable} from "@angular/core";
 import {Socket} from "ngx-socket-io";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  private typingUsers: BehaviorSubject<string[]> = new BehaviorSubject([] as string[]);
 
-  constructor(private socket: Socket) {}
+  public get typingChanged$(): Observable<string[]> {
+    return this.typingUsers.pipe();
+  }
+
+  constructor(private socket: Socket) {
+    this.socket.on("typing_changed", (data: string[]) => this.typingUsers.next(data));
+  }
 
   async joinRoom(username: string): Promise<any> {
     this.socket.emit('join', username);
