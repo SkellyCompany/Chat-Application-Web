@@ -5,7 +5,7 @@ import {Select, Store} from "@ngxs/store";
 import {ChatState} from "../shared/chat/chat.state";
 import {Observable} from "rxjs";
 import {NewMessage, StartTyping} from "../shared/chat/chat.action";
-import {first, map} from "rxjs/operators";
+import {filter, first, map, tap} from "rxjs/operators";
 import { ChatService } from "../shared/chat/chat.service";
 
 @Component({
@@ -16,19 +16,13 @@ import { ChatService } from "../shared/chat/chat.service";
 export class ChatComponent implements OnInit {
 
   message?: string
+  // @ts-ignore
+  currentU: User = null;
 
   // @ts-ignore
   @Select(ChatState.getMessages) messages$: Observable<Message[]>;
-
   // @ts-ignore
-  @Select(ChatState.getUser) currentUser: Observable<User>;
-  // @ts-ignore
-  currentU: User;
-
-  // @ts-ignore
-  @Select(ChatState.getAllUsers) listOfCurrentUsers: Observable<User[]>;
-  // @ts-ignore
-  allUsers: User[];
+  @Select(ChatState.getAllUsers) allUsers$: Observable<User[]>;
 
   public get typingUsers$(): Observable<string[]> {
     return this.chatService.typingChanged$.pipe(map(users => users.filter(username => username !== this.currentU.username)));
@@ -37,42 +31,17 @@ export class ChatComponent implements OnInit {
   constructor(private store: Store, private chatService: ChatService) {}
 
   ngOnInit(): void {
-    // @ts-ignore
-    this.currentUser.subscribe((data) => {
-      if(data) {
-        this.currentU = data;
-      }
-    });
-
-    // @ts-ignore
-    this.listOfCurrentUsers.subscribe((data) => {
-      if(data) {
-        console.log(data);
-        this.allUsers = data;
-      }
-    });
+    this.store.select(ChatState.getUser).pipe(filter(data => !!data)).subscribe((data) => this.currentU = data);
   }
 
-  didUpdateMessageTextField(event: any) {
+  async didUpdateMessageTextField(event: any) {
     this.message = event.target.value
-    this.store.dispatch(new StartTyping(this.currentU.username))
-      .pipe(first())
-      .subscribe(
-        data => {
-        },
-        error => {
-        });
+    await this.store.dispatch(new StartTyping(this.currentU.username)).pipe(first()).toPromise();
   }
 
-  didClickSendMessageButton() {
-    if (this.message != undefined && this.message.length > 0) {
-      this.store.dispatch(new NewMessage(this.currentU.username, this.message))
-        .pipe(first())
-        .subscribe(
-          data => {
-          },
-          error => {
-          });
+  async didClickSendMessageButton() {
+    if (this.message !== undefined && this.message.length > 0) {
+      await this.store.dispatch(new NewMessage(this.currentU.username, this.message)).pipe(first()).toPromise();
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="user-small-container">
       Current online users :
     </div>
-    <div class="user-small-container" *ngFor="let user of allUsers">
+    <div class="user-small-container" *ngFor="let user of allUsers$ | async">
       {{user.username}}
     </div>
   </div>
